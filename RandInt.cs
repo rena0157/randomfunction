@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Net;
 using Microsoft.Azure.Functions.Worker;
@@ -13,12 +14,15 @@ namespace ABIC.Function
             FunctionContext executionContext)
         {
             var logger = executionContext.GetLogger("RandInt");
-            logger.LogInformation("C# HTTP trigger function processed a request.");
+            logger.LogInformation("Request Triggered");
 
             var response = req.CreateResponse(HttpStatusCode.OK);
             response.Headers.Add("Content-Type", "text/plain; charset=utf-8");
 
-            response.WriteString($"Welcome to Azure Functions!, You have accessed the function: {executionContext.FunctionId}");
+            var currentTime = DateTime.UtcNow;
+            var randomNumber = new Random().Next();
+
+            response.WriteString($"The Current Time: {currentTime}. A random Number: {randomNumber}");
 
             return response;
         }
